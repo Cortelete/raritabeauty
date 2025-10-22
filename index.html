@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rarità Beauty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;500;700&display=swap');
+      
+      body {
+        font-family: 'Raleway', sans-serif;
+        background: linear-gradient(-45deg, #18181b, #27272a, #3f3f46, #27272a);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .font-display {
+        font-family: 'Cinzel', serif;
+      }
+
+      /* New Shine Effect */
+      .shine-effect {
+        background: linear-gradient(to right, #d1d5db 40%, #f3f4f6 50%, #d1d5db 60%); /* slate-300 -> slate-100 -> slate-300 */
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        animation: shine 4s linear infinite;
+      }
+      
+      @keyframes shine {
+        from { background-position: 200% center; }
+        to { background-position: -200% center; }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { { opacity: 1; }
+      }
+      
+      .modal-content-animate > * {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+      
+      /* Staggered animation delays */
+      .modal-content-animate > *:nth-child(1) { animation-delay: 0.1s; }
+      .modal-content-animate > *:nth-child(2) { animation-delay: 0.2s; }
+      .modal-content-animate > *:nth-child(3) { animation-delay: 0.3s; }
+      .modal-content-animate > *:nth-child(4) { animation-delay: 0.4s; }
+      .modal-content-animate > *:nth-child(5) { animation-delay: 0.5s; }
+
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
