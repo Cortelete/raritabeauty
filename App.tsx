@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, ReactNode } from 'react';
 
 // TYPE DEFINITIONS
@@ -312,11 +313,11 @@ export default function App() {
             />
             <div className={`transition-all duration-500 ease-in-out ${isAboutModalOpen ? 'opacity-100 translate-y-0 delay-300' : 'opacity-0 translate-y-4'}`}>
               <h2 className="text-2xl md:text-3xl font-display font-bold">
-                  <AnimatedGradientText>✨ O que é a Rarità Beauty ✨</AnimatedGradientText>
+                  <AnimatedGradientText>O que é a Rarità Beauty</AnimatedGradientText>
               </h2>
-              <div className="mt-4 space-y-5 pt-3 text-left text-sm md:text-base">
-                    <div className="flex items-start space-x-4">
-                        <EleganceIcon className="w-8 h-8 text-zinc-400 shrink-0 mt-1" />
+              <div className="mt-4 space-y-5 pt-3 text-sm md:text-base">
+                    <div className="flex flex-col items-center space-y-2">
+                        <EleganceIcon className="w-8 h-8 text-zinc-400 shrink-0" />
                         <div>
                             <h3 className="font-semibold text-zinc-200">Inspiração Italiana</h3>
                             <p className="text-xs md:text-sm text-zinc-400">
@@ -324,8 +325,8 @@ export default function App() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-start space-x-4">
-                        <DiamondIcon className="w-8 h-8 text-zinc-400 shrink-0 mt-1" />
+                    <div className="flex flex-col items-center space-y-2">
+                        <DiamondIcon className="w-8 h-8 text-zinc-400 shrink-0" />
                         <div>
                             <h3 className="font-semibold text-zinc-200">Essência Única</h3>
                             <p className="text-xs md:text-sm text-zinc-400">
@@ -333,8 +334,8 @@ export default function App() {
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-start space-x-4">
-                        <TechniqueIcon className="w-8 h-8 text-zinc-400 shrink-0 mt-1" />
+                    <div className="flex flex-col items-center space-y-2">
+                        <TechniqueIcon className="w-8 h-8 text-zinc-400 shrink-0" />
                         <div>
                             <h3 className="font-semibold text-zinc-200">Técnica e Sofisticação</h3>
                             <p className="text-xs md:text-sm text-zinc-400">
