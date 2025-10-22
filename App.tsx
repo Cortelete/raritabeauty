@@ -1,15 +1,16 @@
-
 import React, { useState, useEffect, ReactNode } from 'react';
 
 // TYPE DEFINITIONS
 type Service = {
   name: string;
+  image: string;
 };
 
 type Professional = {
   id: 'ingrid' | 'maria';
   name: string;
   title: string;
+  avatar: string;
   bio: string;
   instagram: string;
   whatsapp: string;
@@ -94,19 +95,30 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     id: 'ingrid',
     name: 'Ingrid Grano',
     title: 'Sobrancelhas',
+    avatar: '/ingrid-grano.png',
     bio: 'Especialista em realçar a beleza natural do seu olhar através de técnicas avançadas de design e micropigmentação de sobrancelhas.',
     instagram: '@ingridgrano',
     whatsapp: '5517000000000', // Inserir número correto aqui
-    services: [{ name: 'Design de Sobrancelhas' }, { name: 'Micropigmentação Fio a Fio' }, { name: 'Brow Lamination' }],
+    services: [
+        { name: 'Design de Sobrancelhas', image: '/design-sobrancelhas.png' }, 
+        { name: 'Micropigmentação Fio a Fio', image: '/micropigmentacao.png' }, 
+        { name: 'Brow Lamination', image: '/brow-lamination.png' }
+    ],
   },
   maria: {
     id: 'maria',
     name: 'Maria Eliza Gonçalves',
     title: 'Lash & Estética',
+    avatar: '/maria-eliza.png',
     bio: 'Esteticista Cosmetóloga. Cuido da sua pele com um tratamento personalizado e com naturalidade!',
     instagram: '@mariaelizaesteticaa',
     whatsapp: '5517996479152',
-    services: [{ name: 'Extensão de Cílios Volume Brasileiro' }, { name: 'Lash Lifting' }, { name: 'Limpeza de Pele Profunda' }, { name: 'Peeling de Diamante' }],
+    services: [
+        { name: 'Extensão de Cílios', image: '/extensao-cilios.png' }, 
+        { name: 'Lash Lifting', image: '/lash-lifting.png' }, 
+        { name: 'Limpeza de Pele', image: '/limpeza-pele.png' }, 
+        { name: 'Peeling de Diamante', image: '/peeling-diamante.png' }
+    ],
   },
 };
 
@@ -198,14 +210,14 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
 
   return (
     <div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm"
         onClick={onClose}
     >
         <div 
-            className={`bg-zinc-900 bg-opacity-80 border border-zinc-800 rounded-2xl shadow-2xl p-6 m-4 w-full max-w-sm md:max-w-md text-white transform transition-all duration-300 ease-in-out ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+            className={`relative bg-zinc-900 bg-opacity-80 border border-zinc-800 rounded-2xl shadow-2xl p-6 w-full max-w-sm md:max-w-md text-white transform transition-all duration-300 ease-in-out max-h-full overflow-y-auto ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
             onClick={(e) => e.stopPropagation()}
         >
-             <button onClick={onClose} className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors">
+             <button onClick={onClose} className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors z-10">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             {children}
@@ -251,16 +263,36 @@ export default function App() {
         const { professional } = activeModal;
         return (
             <div className="text-center space-y-4">
-                <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{professional.name}</AnimatedGradientText></h2>
-                <h3 className="text-lg font-display text-zinc-300">{professional.title}</h3>
-                <p className="text-sm text-zinc-400">{professional.bio}</p>
-                <div className="space-y-2 pt-4">
-                    <h4 className="text-md font-semibold text-zinc-200">Agende seu serviço:</h4>
-                    {professional.services.map(service => (
-                        <button key={service.name} onClick={() => setActiveModal({ type: 'booking', professional, service: service.name })} className="block w-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 text-sm md:text-base">
-                            {service.name}
-                        </button>
-                    ))}
+                <img 
+                    src={professional.avatar} 
+                    alt={professional.name} 
+                    className="w-28 h-28 mx-auto object-cover rounded-full border-2 border-zinc-700 shadow-lg"
+                />
+                <div>
+                    <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{professional.name}</AnimatedGradientText></h2>
+                    <h3 className="text-lg font-display text-zinc-300">{professional.title}</h3>
+                </div>
+                <p className="text-sm text-zinc-400 px-4">{professional.bio}</p>
+                <div className="pt-4">
+                    <h4 className="text-md font-semibold text-zinc-200 mb-4">Agende seu serviço:</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                        {professional.services.map(service => (
+                            <button
+                                key={service.name}
+                                onClick={() => setActiveModal({ type: 'booking', professional, service: service.name })}
+                                className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-3 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            >
+                                <img
+                                    src={service.image}
+                                    alt={service.name}
+                                    className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <span className="text-zinc-200 font-semibold text-xs leading-tight">
+                                    {service.name}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
         );
