@@ -391,7 +391,7 @@ export default function App() {
       {/* Main Link Card */}
       <div className={`relative w-full max-w-sm md:max-w-md mx-auto bg-zinc-900 bg-opacity-50 backdrop-blur-md border border-zinc-800 rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 transform-gpu transition-all duration-500 ease-in-out overflow-hidden ${isAboutModalOpen ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'}`}>
         <div className="absolute top-0 left-0 w-full h-40">
-          <img src="/card-background.png" alt="" className="w-full h-full object-cover opacity-20" />
+          <img src="/fundo.png" alt="" className="w-full h-full object-cover opacity-20" />
         </div>
         
         <div className="relative z-10 flex flex-col items-center text-center">
