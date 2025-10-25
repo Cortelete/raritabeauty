@@ -98,7 +98,7 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     avatar: '/ingrid-grano.png',
     bio: 'Especialista em realçar a beleza natural do seu olhar através de técnicas avançadas de design e micropigmentação de sobrancelhas.',
     instagram: '@ingridgrano',
-    whatsapp: '5517000000000', // Inserir número correto aqui
+    whatsapp: '5517992171589',
     services: [
         { name: 'Design de Sobrancelhas', image: '/design-sobrancelhas.png' }, 
         { name: 'Micropigmentação Fio a Fio', image: '/micropigmentacao.png' }, 
