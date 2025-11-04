@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, ReactNode } from 'react';
 
 // TYPE DEFINITIONS
@@ -156,7 +157,7 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     services: [
         { 
             name: 'Lash Lifting', 
-            images: ['maria-lash-lifting-1.png', 'maria-lash-lifting-2.png'], 
+            images: ['maria-lash-lifting-1.png'], 
             description: 'Técnica da curvatura dos cílios naturais.\nProporcionando um efeito rímel, com naturalidade e elegância.\nNão é feito manutenção.' 
         },
         { 
