@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, ReactNode } from 'react';
 
 // TYPE DEFINITIONS
@@ -166,7 +165,7 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
           description: 'Técnicas de extensão para um olhar marcante e volumoso. Escolha a sua preferida.',
           services: [
             { name: 'Volume Light', images: ['maria-volume-light-1.png'], description: 'Técnica de extensão de cílios naturais, preenchendo 50% dos fios, proporcionando um olhar delicado e elegante.' },
-            { name: 'Volume Soft Marrom', images: ['maria-volume-light-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos na cor marrom, proporcionando um olhar natural e leve.\nÓtima opção para loiras, ruivas e por quem deseja um olhar elegante.' },
+            { name: 'Volume Soft Marrom', images: ['maria-volume-soft-marrom.png', 'maria-volume-soft-marrom-2.png'], description: 'Técnica de extensão de cílios com fios tecnológicos na cor marrom, proporcionando um olhar natural e leve.\nÓtima opção para loiras, ruivas e por quem deseja um olhar elegante.' },
             { name: 'Volume Brasileiro', images: ['maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios feito com fios tecnológicos, garantindo durabilidade e proporcionando um olhar com volume e marcante.' },
             { name: 'Volume 5D', images: ['maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos, proporcionando um olhar marcante e com maior volume.\nTécnica mais volumosa.' },
           ]
@@ -197,7 +196,7 @@ const AnimatedGradientText = ({ children, className = '' }: { children?: ReactNo
     </span>
 );
 
-const ImageCarousel = ({ images, alt }: { images: string[], alt: string }) => {
+const ImageCarousel = ({ images, alt, onImageClick }: { images: string[], alt: string, onImageClick?: (index: number) => void }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const goToPrevious = () => {
@@ -225,7 +224,8 @@ const ImageCarousel = ({ images, alt }: { images: string[], alt: string }) => {
             <img
                 src={images[currentIndex]}
                 alt={`${alt} - ${currentIndex + 1}`}
-                className="w-full h-full object-cover transition-opacity duration-500"
+                className="w-full h-full object-cover transition-opacity duration-500 cursor-pointer"
+                onClick={() => onImageClick?.(currentIndex)}
             />
             {images.length > 1 && (
                 <>
@@ -248,7 +248,7 @@ const ImageCarousel = ({ images, alt }: { images: string[], alt: string }) => {
 
 
 // MODAL CONTENT COMPONENTS
-const ProfessionalContent = ({ professional, setActiveModal }: { professional: Professional; setActiveModal: React.Dispatch<React.SetStateAction<ModalContentType | null>>; }) => {
+const ProfessionalContent = ({ professional, openModal }: { professional: Professional; openModal: (content: ModalContentType) => void; }) => {
     return (
         <div className="text-center space-y-4">
             <img 
@@ -268,9 +268,9 @@ const ProfessionalContent = ({ professional, setActiveModal }: { professional: P
                         const isGroup = service.services && service.services.length > 0;
                         const handleClick = () => {
                             if (isGroup) {
-                                setActiveModal({ type: 'service_group', professional, serviceGroup: service });
+                                openModal({ type: 'service_group', professional, serviceGroup: service });
                             } else {
-                                setActiveModal({ type: 'service_details', professional, service });
+                                openModal({ type: 'service_details', professional, service });
                             }
                         };
                         return (
@@ -279,12 +279,14 @@ const ProfessionalContent = ({ professional, setActiveModal }: { professional: P
                                 onClick={handleClick}
                                 className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-2 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
                             >
-                                <img
-                                    src={service.images[0]}
-                                    alt={service.name}
-                                    className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
-                                />
-                                <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center">
+                                <div className="w-full aspect-square relative">
+                                    <img
+                                        src={service.images[0]}
+                                        alt={service.name}
+                                        className="w-full h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                </div>
+                                <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center mt-2">
                                     {service.name}
                                 </span>
                             </button>
@@ -296,7 +298,7 @@ const ProfessionalContent = ({ professional, setActiveModal }: { professional: P
     );
 };
 
-const ServiceGroupContent = ({ professional, serviceGroup, setActiveModal }: { professional: Professional, serviceGroup: Service, setActiveModal: React.Dispatch<React.SetStateAction<ModalContentType | null>> }) => {
+const ServiceGroupContent = ({ professional, serviceGroup, openModal, BackButton }: { professional: Professional, serviceGroup: Service, openModal: (content: ModalContentType) => void, BackButton: ReactNode; }) => {
     return (
         <div className="text-center space-y-4">
             <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{serviceGroup.name}</AnimatedGradientText></h2>
@@ -306,33 +308,32 @@ const ServiceGroupContent = ({ professional, serviceGroup, setActiveModal }: { p
                 {serviceGroup.services?.map(subService => (
                     <button
                         key={subService.name}
-                        onClick={() => setActiveModal({ type: 'service_details', professional, service: subService })}
+                        onClick={() => openModal({ type: 'service_details', professional, service: subService })}
                         className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-2 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     >
-                        <img
-                            src={subService.images[0]}
-                            alt={subService.name}
-                            className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center">
+                         <div className="w-full aspect-square relative">
+                            <img
+                                src={subService.images[0]}
+                                alt={subService.name}
+                                className="w-full h-full object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+                            />
+                        </div>
+                        <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center mt-2">
                             {subService.name}
                         </span>
                     </button>
                 ))}
             </div>
 
-            <button
-                onClick={() => setActiveModal({ type: 'professional', professional })}
-                className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300 !mt-6"
-            >
-                Voltar
-            </button>
+            <div className="!mt-6">
+                {BackButton}
+            </div>
         </div>
     );
 };
 
 
-const BookingForm = ({ professional, service, setModalContent }: { professional: Professional; service: string; setModalContent: React.Dispatch<React.SetStateAction<ModalContentType | null>> }) => {
+const BookingForm = ({ professional, service, openModal, goBack, closeAllModals }: { professional: Professional; service: string; openModal: (content: ModalContentType) => void; goBack: () => void; closeAllModals: () => void; }) => {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [obs, setObs] = useState('');
@@ -340,13 +341,13 @@ const BookingForm = ({ professional, service, setModalContent }: { professional:
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       if (!age || parseInt(age, 10) < 18) {
-        setModalContent({ type: 'age_warning' });
+        openModal({ type: 'age_warning' });
         return;
       }
       const message = `Olá, gostaria de agendar um horário para o serviço de ${service}.\n\n*Nome:* ${name}\n*Idade:* ${age}\n*Observação:* ${obs || 'Nenhuma'}`;
       const whatsappUrl = `https://wa.me/${professional.whatsapp}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
-      setModalContent(null);
+      closeAllModals();
     };
 
     return (
@@ -364,6 +365,9 @@ const BookingForm = ({ professional, service, setModalContent }: { professional:
             </div>
              <button type="submit" className="w-full bg-gradient-to-r from-zinc-600 to-zinc-700 hover:from-zinc-700 hover:to-zinc-800 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105">
                 Confirmar e Enviar via WhatsApp
+            </button>
+            <button type="button" onClick={goBack} className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300 !mt-3">
+                Voltar
             </button>
         </form>
     );
@@ -393,6 +397,144 @@ const DeveloperContact = () => {
     );
 };
 
+const FullScreenImageViewer = ({ images, startIndex, onClose }: { images: string[], startIndex: number, onClose: () => void }) => {
+    const [currentIndex, setCurrentIndex] = useState(startIndex);
+    const [zoom, setZoom] = useState(1);
+    const [pan, setPan] = useState({ x: 0, y: 0 });
+    const imageRef = React.useRef<HTMLImageElement>(null);
+    const isPanning = React.useRef(false);
+    const panStart = React.useRef({ x: 0, y: 0 });
+    const swipeStartX = React.useRef<number | null>(null);
+
+    const resetZoomAndPan = () => {
+        setZoom(1);
+        setPan({ x: 0, y: 0 });
+    };
+
+    const goToPrevious = () => {
+        resetZoomAndPan();
+        const isFirstSlide = currentIndex === 0;
+        const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
+        setCurrentIndex(newIndex);
+    };
+
+    const goToNext = () => {
+        resetZoomAndPan();
+        const isLastSlide = currentIndex === images.length - 1;
+        const newIndex = isLastSlide ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowLeft') goToPrevious();
+            if (e.key === 'ArrowRight') goToNext();
+            if (e.key === 'Escape') onClose();
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [currentIndex, images.length]);
+
+    const handleWheel = (e: React.WheelEvent) => {
+        e.preventDefault();
+        const newZoom = zoom - e.deltaY * 0.01;
+        setZoom(Math.min(Math.max(1, newZoom), 5));
+    };
+    
+    const handlePointerDown = (e: React.PointerEvent) => {
+        e.preventDefault();
+        if (zoom > 1) {
+            isPanning.current = true;
+            panStart.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+            if (e.target && 'style' in e.target) {
+              (e.target as HTMLElement).style.cursor = 'grabbing';
+            }
+        } else if (images.length > 1) {
+            swipeStartX.current = e.clientX;
+        }
+    };
+    
+    const handlePointerMove = (e: React.PointerEvent) => {
+        if (isPanning.current) {
+            setPan({
+                x: e.clientX - panStart.current.x,
+                y: e.clientY - panStart.current.y
+            });
+        }
+    };
+
+    const handlePointerUp = (e: React.PointerEvent) => {
+        if (isPanning.current) {
+            isPanning.current = false;
+            if (e.target && 'style' in e.target) {
+                (e.target as HTMLElement).style.cursor = 'grab';
+            }
+            return;
+        }
+
+        if (swipeStartX.current !== null) {
+            const deltaX = e.clientX - swipeStartX.current;
+            const SWIPE_THRESHOLD = 50;
+
+            if (deltaX > SWIPE_THRESHOLD) {
+                goToPrevious();
+            } else if (deltaX < -SWIPE_THRESHOLD) {
+                goToNext();
+            }
+            swipeStartX.current = null;
+        }
+    };
+
+    const handleDoubleClick = () => {
+        if (zoom > 1) {
+            resetZoomAndPan();
+        } else {
+            setZoom(2.5);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-md" onClick={onClose}>
+            <div 
+                className="relative w-full h-full flex items-center justify-center touch-none" 
+                onClick={(e) => e.stopPropagation()} 
+                onWheel={handleWheel}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerLeave={handlePointerUp}
+                onDoubleClick={handleDoubleClick}
+            >
+                <img
+                    ref={imageRef}
+                    src={images[currentIndex]}
+                    alt={`Imagem em tela cheia ${currentIndex + 1}`}
+                    className="max-w-[90vw] max-h-[90vh] object-contain transition-transform duration-200 ease-out"
+                    style={{ 
+                        transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
+                        cursor: zoom > 1 ? 'grab' : 'auto'
+                    }}
+                />
+            </div>
+
+            <button onClick={onClose} className="absolute top-4 right-4 text-white hover:text-zinc-300 transition-colors z-[101]">
+                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            
+            {images.length > 1 && (
+                <>
+                    <button onClick={(e) => { e.stopPropagation(); goToPrevious(); }} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors z-[101]">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button onClick={(e) => { e.stopPropagation(); goToNext(); }} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors z-[101]">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                </>
+            )}
+        </div>
+    );
+};
+
 // GENERIC MODAL COMPONENT
 const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children?: ReactNode }) => {
   useEffect(() => {
@@ -411,13 +553,15 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
         onClick={onClose}
     >
         <div 
-            className={`relative bg-zinc-900 bg-opacity-80 border border-zinc-800 rounded-2xl shadow-2xl p-6 w-full max-w-sm md:max-w-md text-white transform transition-all duration-300 ease-in-out max-h-full overflow-y-auto ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+            className={`relative bg-zinc-900 bg-opacity-80 border border-zinc-800 rounded-2xl shadow-2xl p-6 w-full max-w-sm md:max-w-md text-white transform transition-all duration-300 ease-in-out max-h-[90vh] overflow-y-auto ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
             onClick={(e) => e.stopPropagation()}
         >
              <button onClick={onClose} className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors z-10">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            {children}
+            <div className="modal-content-animate">
+                {children}
+            </div>
         </div>
     </div>
   );
@@ -425,13 +569,48 @@ const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => 
 
 // MAIN APP COMPONENT
 export default function App() {
-  const [activeModal, setActiveModal] = useState<ModalContentType | null>(null);
+  const [modalStack, setModalStack] = useState<ModalContentType[]>([]);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [imageViewerState, setImageViewerState] = useState<{ images: string[]; startIndex: number } | null>(null);
+
+  const openModal = (content: ModalContentType) => {
+    setModalStack(prev => [...prev, content]);
+  };
+  const goBack = () => {
+    setModalStack(prev => prev.slice(0, -1));
+  };
+  const closeAllModals = () => {
+    setModalStack([]);
+  };
+
+  const handleModalClose = () => {
+    if (modalStack.length > 1) {
+      goBack();
+    } else {
+      closeAllModals();
+    }
+  };
+
+  const openImageViewer = (images: string[], startIndex: number) => {
+    setImageViewerState({ images, startIndex });
+  };
+
+  const currentModal = modalStack.length > 0 ? modalStack[modalStack.length - 1] : null;
 
   const renderActiveModalContent = () => {
-    if (!activeModal) return null;
+    if (!currentModal) return null;
+    const showBackButton = modalStack.length > 1;
 
-    switch (activeModal.type) {
+    const BackButton = () => (
+        <button
+            onClick={goBack}
+            className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300"
+        >
+            Voltar
+        </button>
+    );
+
+    switch (currentModal.type) {
       case 'location':
         return (
             <div className="space-y-4">
@@ -457,40 +636,35 @@ export default function App() {
             </div>
         );
       case 'professional':
-        return <ProfessionalContent professional={activeModal.professional} setActiveModal={setActiveModal} />;
+        return <ProfessionalContent professional={currentModal.professional} openModal={openModal} />;
       case 'service_group':
-        return <ServiceGroupContent professional={activeModal.professional} serviceGroup={activeModal.serviceGroup} setActiveModal={setActiveModal} />;
+        return <ServiceGroupContent professional={currentModal.professional} serviceGroup={currentModal.serviceGroup} openModal={openModal} BackButton={showBackButton ? <BackButton /> : null} />;
       case 'service_details':
-        const { professional: prof, service } = activeModal;
+        const { professional: prof, service } = currentModal;
         return (
             <div className="text-center space-y-4">
-                <ImageCarousel images={service.images} alt={service.name} />
+                <ImageCarousel images={service.images} alt={service.name} onImageClick={(index) => openImageViewer(service.images, index)} />
                 <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{service.name}</AnimatedGradientText></h2>
                 <p className="text-sm text-zinc-300 whitespace-pre-line text-left">{service.description}</p>
                 <div className="pt-4 space-y-3">
                     <button
-                        onClick={() => setActiveModal({ type: 'booking', professional: prof, service: service.name })}
+                        onClick={() => openModal({ type: 'booking', professional: prof, service: service.name })}
                         className="w-full bg-gradient-to-r from-zinc-600 to-zinc-700 hover:from-zinc-700 hover:to-zinc-800 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
                     >
                         Agendar este Serviço
                     </button>
-                    <button
-                        onClick={() => setActiveModal({ type: 'professional', professional: prof })}
-                        className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300"
-                    >
-                        Ver outros serviços
-                    </button>
+                    {showBackButton && <BackButton />}
                 </div>
             </div>
         );
       case 'booking':
-        return <BookingForm professional={activeModal.professional} service={activeModal.service} setModalContent={setActiveModal} />;
+        return <BookingForm professional={currentModal.professional} service={currentModal.service} openModal={openModal} goBack={goBack} closeAllModals={closeAllModals} />;
       case 'age_warning':
           return (
             <div className="text-center space-y-4">
                 <h2 className="text-2xl font-display font-bold text-red-400">Atenção</h2>
                 <p className="text-zinc-300">É necessário ser maior de 18 anos para realizar o agendamento. Por favor, peça para um responsável concluir a conversa.</p>
-                <button onClick={() => setActiveModal(null)} className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                <button onClick={goBack} className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
                     Entendi
                 </button>
             </div>
@@ -603,21 +777,29 @@ export default function App() {
         <div className="relative z-10 flex flex-col space-y-4">
             <LinkButton icon={<QuestionMarkIcon />} text="O que é a Rarità Beauty" onClick={() => setIsAboutModalOpen(true)} />
             <LinkButton icon={<InstagramIcon />} text="Instagram" href="https://www.instagram.com/raritabeauty" />
-            <LinkButton icon={<BrowsIcon />} text="Sobrancelhas com Ingrid Grano" onClick={() => setActiveModal({ type: 'professional', professional: PROFESSIONALS.ingrid })} />
-            <LinkButton icon={<LashIcon />} text="Lash & Estética com Maria Eliza" onClick={() => setActiveModal({ type: 'professional', professional: PROFESSIONALS.maria })} />
-            <LinkButton icon={<LocationIcon />} text="Localização" onClick={() => setActiveModal({ type: 'location' })} />
+            <LinkButton icon={<BrowsIcon />} text="Sobrancelhas com Ingrid Grano" onClick={() => openModal({ type: 'professional', professional: PROFESSIONALS.ingrid })} />
+            <LinkButton icon={<LashIcon />} text="Lash & Estética com Maria Eliza" onClick={() => openModal({ type: 'professional', professional: PROFESSIONALS.maria })} />
+            <LinkButton icon={<LocationIcon />} text="Localização" onClick={() => openModal({ type: 'location' })} />
         </div>
       </div>
 
       <footer className={`fixed bottom-4 text-center w-full transition-opacity duration-500 ${isAboutModalOpen ? 'opacity-0' : 'opacity-100'}`}>
-         <button onClick={() => setActiveModal({ type: 'developer' })} className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+         <button onClick={() => openModal({ type: 'developer' })} className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
             Desenvolvido por InteligenciArte.IA ✨
          </button>
       </footer>
       
-      <Modal isOpen={!!activeModal} onClose={() => setActiveModal(null)}>
+      <Modal isOpen={modalStack.length > 0} onClose={handleModalClose}>
         {renderActiveModalContent()}
       </Modal>
+
+      {imageViewerState && (
+        <FullScreenImageViewer
+            images={imageViewerState.images}
+            startIndex={imageViewerState.startIndex}
+            onClose={() => setImageViewerState(null)}
+        />
+      )}
     </main>
   );
 }
