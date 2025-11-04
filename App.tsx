@@ -3,7 +3,9 @@ import React, { useState, useEffect, ReactNode } from 'react';
 // TYPE DEFINITIONS
 type Service = {
   name: string;
-  image: string;
+  images: string[];
+  description: string;
+  services?: Service[];
 };
 
 type Professional = {
@@ -21,6 +23,8 @@ type ModalContentType =
   | { type: 'location' }
   | { type: 'developer' }
   | { type: 'professional'; professional: Professional }
+  | { type: 'service_group'; professional: Professional; serviceGroup: Service }
+  | { type: 'service_details'; professional: Professional; service: Service }
   | { type: 'booking'; professional: Professional; service: string }
   | { type: 'age_warning' };
 
@@ -95,29 +99,90 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     id: 'ingrid',
     name: 'Ingrid Grano',
     title: 'Sobrancelhas',
-    avatar: '/ingrid-grano.png',
+    avatar: '/ingrid-grano-profile.png',
     bio: 'Especialista em realçar a beleza natural do seu olhar através de técnicas avançadas de design e micropigmentação de sobrancelhas.',
     instagram: '@ingridgrano',
     whatsapp: '5517992171589',
     services: [
-        { name: 'Design de Sobrancelhas', image: '/design-sobrancelhas.png' }, 
-        { name: 'Micropigmentação Fio a Fio', image: '/micropigmentacao.png' }, 
-        { name: 'Brow Lamination', image: '/brow-lamination.png' }
+        { 
+            name: 'Design Personalizado', 
+            images: ['/ingrid-design-personalizado-1.png', '/ingrid-design-personalizado-2.png'], 
+            description: 'Mais do que remover pelinhos, é um estudo minucioso da sua beleza natural. É feita uma análise da estrutura da sobrancelha, o formato do rosto e as proporções do olhar para criar um desenho exclusivo, que realça seus traços, harmoniza sua expressão e revela a moldura ideal para o seus olhos.' 
+        }, 
+        { 
+            name: 'Design com Henna', 
+            images: ['/ingrid-design-henna-1.png'], 
+            description: 'Após o design personalizado, é realizada a aplicação estratégica da henna, respeitando o formato natural e o objetivo de harmonia do olhar. A henna é um pigmento temporário que pigemnta a pele, ajudando a cobrir falhas, definir o formato e realçar o contorno das sobrancelhas. O resultado são sobrancelhas mais marcantes, equilibradas e com acabamento sofisticado, sem perder a naturalidade. Por isso tanto quem gosta de resultado mais natural quanto resultado mais marcado consegue se sentir realizada com esse procedimento.' 
+        },
+        {
+            name: 'Design com Coloração',
+            images: ['/ingrid-design-coloracao-1.png'],
+            description: 'Após o design personalizado, é aplicada a coloração específica para sobrancelhas. Diferente da henna, a coloração age apenas nos fios, proporcionando um resultado natural, sútil e elegante. É ideal para quem deseja mais volume e definição, já que tinge até os fios mais finos, criando a sensação de sobrancelhas mais cheias e alinhadas, sem marcar a pele.'
+        },
+        { 
+            name: 'Brow Lamination', 
+            images: [
+                '/ingrid-brow-lamination-1.png', 
+                '/ingrid-brow-lamination-2.png', 
+                '/ingrid-brow-lamination-3.png', 
+                '/ingrid-brow-lamination-4.png',
+                '/ingrid-brow-lamination-5.png',
+                '/ingrid-brow-lamination-6.png'
+            ], 
+            description: 'Tendência forte de 2025, o Brow Lamination conquistou o coração de quem busca um olhar marcante e sobrancelhas naturalmente mais cheias. A técnica alinha e direciona os fios, criando a sensação de maior espessura e simetria, o que realça o formato e traz aquele toque de elegância & sofisticação. Além do efeito estético incrível, o alinhamento também ajuda a disfarçar falhas e cicatrizes, já que os fios são penteados e fixados de forma estratégica para cobrir pequenas imperfeições.' 
+        },
+        {
+            name: 'Protocolo Reconstrutivo',
+            images: ['/ingrid-protocolo-reconstrutivo-1.png', '/ingrid-protocolo-reconstrutivo-2.png'],
+            description: 'A técnica que chegou como tendência e se tornou a mais desejada do momento. Antes, bastava ver uma sobrancelha falhada ou sem estrutura e logo vinha a indicação de micropigmentação. Mas o mercado evoluiu e hoje as pessoas estão voltando com força para o natural. O Protocolo Reconstrutivo vai além de preencher: ele reconstrói a harmonia do olhar, devolve densidade aos fios e resgata o formato original com acabamento sofisticado.\nO natural nunca saiu de moda, mas agora, é o que todo mundo procura.'
+        },
+        {
+            name: 'Rarità Lips',
+            images: ['/rarita-lips-1.png', '/rarita-lips-2.png'],
+            description: 'Um tratamento de esfoliação e hidratação labial que devolve vida, maciez e viço natural aos lábios. Ideal para quem sente os lábios ressecados ou quer realçar a cor natural, o Raritá Lips remove células mortas e nutre profundamente, deixando os lábios suaves, saudáveis e com aparência radiante.\nNeste serviço, também é possível acrescentar uma pigmentação temporária, com duração de até 3 dias, para realçar ainda mais a cor e o contorno natural dos lábios.'
+        },
+        {
+            name: 'Laser',
+            images: ['/laser.png'],
+            description: '(informações serão inseridas)'
+        }
     ],
   },
   maria: {
     id: 'maria',
     name: 'Maria Eliza Gonçalves',
     title: 'Lash & Estética',
-    avatar: '/maria-eliza.png',
+    avatar: '/maria-eliza-profile.png',
     bio: 'Esteticista Cosmetóloga. Cuido da sua pele com um tratamento personalizado e com naturalidade!',
     instagram: '@mariaelizaesteticaa',
     whatsapp: '5517996479152',
     services: [
-        { name: 'Extensão de Cílios', image: '/extensao-cilios.png' }, 
-        { name: 'Lash Lifting', image: '/lash-lifting.png' }, 
-        { name: 'Limpeza de Pele', image: '/limpeza-pele.png' }, 
-        { name: 'Peeling de Diamante', image: '/peeling-diamante.png' }
+        { 
+            name: 'Lash Lifting', 
+            images: ['/maria-lash-lifting-1.png', '/maria-lash-lifting-2.png'], 
+            description: 'Técnica da curvatura dos cílios naturais.\nProporcionando um efeito rímel, com naturalidade e elegância.\nNão é feito manutenção.' 
+        },
+        { 
+          name: 'Extensão de Cílios', 
+          images: ['/maria-volume-brasileiro-1.png'], 
+          description: 'Técnicas de extensão para um olhar marcante e volumoso. Escolha a sua preferida.',
+          services: [
+            { name: 'Volume Light', images: ['/maria-volume-light-1.png'], description: 'Técnica de extensão de cílios naturais, preenchendo 50% dos fios, proporcionando um olhar delicado e elegante.' },
+            { name: 'Volume Soft Marrom', images: ['/maria-volume-light-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos na cor marrom, proporcionando um olhar natural e leve.\nÓtima opção para loiras, ruivas e por quem deseja um olhar elegante.' },
+            { name: 'Volume Brasileiro', images: ['/maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios feito com fios tecnológicos, garantindo durabilidade e proporcionando um olhar com volume e marcante.' },
+            { name: 'Volume 5D', images: ['/maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos, proporcionando um olhar marcante e com maior volume.\nTécnica mais volumosa.' },
+          ]
+        },
+        { 
+            name: 'Brow Lamination', 
+            images: ['/maria-brow-lamination-1.png'], 
+            description: 'Técnica de alinhamento e fios da sobrancelhas laminados.\nDisfarçando falhas e assimetrias.\nProporciona sobrancelhas definidas, alinhadas e elegante.' 
+        },
+        { 
+            name: 'Limpeza de Pele', 
+            images: ['/maria-limpeza-pele-1.png', '/maria-limpeza-pele-2.png', '/maria-limpeza-pele-3.png'], 
+            description: 'O procedimento essencial para começar seu tratamento facial, removendo impurezas, melhorando excesso de oleosidade, extraindo cravos, proporcionando uma pele limpa, saudável e pronta para receber os cosméticos!\nA limpeza de pele promove regeneração, uma pele com viço e renovada.' 
+        },
     ],
   },
 };
@@ -127,14 +192,148 @@ const DEVELOPER_INFO = {
     instagram: 'https://www.instagram.com/inteligenciarte.ia',
 };
 
-// HELPER COMPONENT
+// HELPER COMPONENTS
 const AnimatedGradientText = ({ children, className = '' }: { children?: ReactNode, className?: string }) => (
     <span className={`shine-effect ${className}`}>
         {children}
     </span>
 );
 
+const ImageCarousel = ({ images, alt }: { images: string[], alt: string }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const goToPrevious = () => {
+        const isFirstSlide = currentIndex === 0;
+        const newIndex = isFirstSlide ? images.length - 1 : currentIndex - 1;
+        setCurrentIndex(newIndex);
+    };
+
+    const goToNext = () => {
+        const isLastSlide = currentIndex === images.length - 1;
+        const newIndex = isLastSlide ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+    };
+
+    if (!images || images.length === 0) {
+        return (
+            <div className="w-full aspect-video bg-zinc-800 rounded-lg flex items-center justify-center">
+                <span className="text-zinc-500">No image available</span>
+            </div>
+        );
+    }
+    
+    return (
+        <div className="relative w-full aspect-video bg-zinc-800 rounded-lg overflow-hidden group">
+            <img
+                src={images[currentIndex]}
+                alt={`${alt} - ${currentIndex + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-500"
+            />
+            {images.length > 1 && (
+                <>
+                    <button onClick={goToPrevious} className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-40 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+                    <button onClick={goToNext} className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-40 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-2">
+                        {images.map((_, index) => (
+                            <div key={index} className={`w-2 h-2 rounded-full transition-colors ${currentIndex === index ? 'bg-white' : 'bg-white/50'}`}></div>
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+
 // MODAL CONTENT COMPONENTS
+const ProfessionalContent = ({ professional, setActiveModal }: { professional: Professional; setActiveModal: React.Dispatch<React.SetStateAction<ModalContentType | null>>; }) => {
+    return (
+        <div className="text-center space-y-4">
+            <img 
+                src={professional.avatar} 
+                alt={professional.name} 
+                className="w-28 h-28 mx-auto object-cover rounded-full border-2 border-zinc-700 shadow-lg"
+            />
+            <div>
+                <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{professional.name}</AnimatedGradientText></h2>
+                <h3 className="text-lg font-display text-zinc-300">{professional.title}</h3>
+            </div>
+            <p className="text-sm text-zinc-400 px-4">{professional.bio}</p>
+            <div className="pt-4">
+                <h4 className="text-md font-semibold text-zinc-200 mb-4">Agende seu serviço:</h4>
+                <div className="grid grid-cols-2 gap-3">
+                    {professional.services.map(service => {
+                        const isGroup = service.services && service.services.length > 0;
+                        const handleClick = () => {
+                            if (isGroup) {
+                                setActiveModal({ type: 'service_group', professional, serviceGroup: service });
+                            } else {
+                                setActiveModal({ type: 'service_details', professional, service });
+                            }
+                        };
+                        return (
+                            <button
+                                key={service.name}
+                                onClick={handleClick}
+                                className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-2 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                            >
+                                <img
+                                    src={service.images[0]}
+                                    alt={service.name}
+                                    className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center">
+                                    {service.name}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const ServiceGroupContent = ({ professional, serviceGroup, setActiveModal }: { professional: Professional, serviceGroup: Service, setActiveModal: React.Dispatch<React.SetStateAction<ModalContentType | null>> }) => {
+    return (
+        <div className="text-center space-y-4">
+            <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{serviceGroup.name}</AnimatedGradientText></h2>
+            <p className="text-sm text-zinc-300">Escolha uma das técnicas abaixo:</p>
+            
+            <div className="grid grid-cols-2 gap-3 pt-2">
+                {serviceGroup.services?.map(subService => (
+                    <button
+                        key={subService.name}
+                        onClick={() => setActiveModal({ type: 'service_details', professional, service: subService })}
+                        className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-2 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
+                    >
+                        <img
+                            src={subService.images[0]}
+                            alt={subService.name}
+                            className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <span className="text-zinc-200 font-semibold text-xs leading-tight h-8 flex items-center justify-center">
+                            {subService.name}
+                        </span>
+                    </button>
+                ))}
+            </div>
+
+            <button
+                onClick={() => setActiveModal({ type: 'professional', professional })}
+                className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300 !mt-6"
+            >
+                Voltar
+            </button>
+        </div>
+    );
+};
+
+
 const BookingForm = ({ professional, service, setModalContent }: { professional: Professional; service: string; setModalContent: React.Dispatch<React.SetStateAction<ModalContentType | null>> }) => {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
@@ -260,39 +459,29 @@ export default function App() {
             </div>
         );
       case 'professional':
-        const { professional } = activeModal;
+        return <ProfessionalContent professional={activeModal.professional} setActiveModal={setActiveModal} />;
+      case 'service_group':
+        return <ServiceGroupContent professional={activeModal.professional} serviceGroup={activeModal.serviceGroup} setActiveModal={setActiveModal} />;
+      case 'service_details':
+        const { professional: prof, service } = activeModal;
         return (
             <div className="text-center space-y-4">
-                <img 
-                    src={professional.avatar} 
-                    alt={professional.name} 
-                    className="w-28 h-28 mx-auto object-cover rounded-full border-2 border-zinc-700 shadow-lg"
-                />
-                <div>
-                    <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{professional.name}</AnimatedGradientText></h2>
-                    <h3 className="text-lg font-display text-zinc-300">{professional.title}</h3>
-                </div>
-                <p className="text-sm text-zinc-400 px-4">{professional.bio}</p>
-                <div className="pt-4">
-                    <h4 className="text-md font-semibold text-zinc-200 mb-4">Agende seu serviço:</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                        {professional.services.map(service => (
-                            <button
-                                key={service.name}
-                                onClick={() => setActiveModal({ type: 'booking', professional, service: service.name })}
-                                className="group flex flex-col items-center justify-start text-center bg-zinc-800/50 hover:bg-zinc-700/80 border border-zinc-700 rounded-lg p-3 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400"
-                            >
-                                <img
-                                    src={service.image}
-                                    alt={service.name}
-                                    className="w-full aspect-square object-cover rounded-md mb-2 transition-transform duration-300 group-hover:scale-105"
-                                />
-                                <span className="text-zinc-200 font-semibold text-xs leading-tight">
-                                    {service.name}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
+                <ImageCarousel images={service.images} alt={service.name} />
+                <h2 className="text-2xl font-display font-bold"><AnimatedGradientText>{service.name}</AnimatedGradientText></h2>
+                <p className="text-sm text-zinc-300 whitespace-pre-line text-left">{service.description}</p>
+                <div className="pt-4 space-y-3">
+                    <button
+                        onClick={() => setActiveModal({ type: 'booking', professional: prof, service: service.name })}
+                        className="w-full bg-gradient-to-r from-zinc-600 to-zinc-700 hover:from-zinc-700 hover:to-zinc-800 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
+                    >
+                        Agendar este Serviço
+                    </button>
+                    <button
+                        onClick={() => setActiveModal({ type: 'professional', professional: prof })}
+                        className="w-full bg-transparent border border-zinc-600 hover:bg-zinc-800 text-zinc-300 font-bold py-3 px-4 rounded-lg transition-all duration-300"
+                    >
+                        Ver outros serviços
+                    </button>
                 </div>
             </div>
         );
