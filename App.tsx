@@ -99,51 +99,48 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     id: 'ingrid',
     name: 'Ingrid Grano',
     title: 'Sobrancelhas',
-    avatar: '/ingrid-grano-profile.png',
+    avatar: 'ingrid-grano-profile.png',
     bio: 'Especialista em realçar a beleza natural do seu olhar através de técnicas avançadas de design e micropigmentação de sobrancelhas.',
     instagram: '@ingridgrano',
     whatsapp: '5517992171589',
     services: [
         { 
             name: 'Design Personalizado', 
-            images: ['/ingrid-design-personalizado-1.png', '/ingrid-design-personalizado-2.png'], 
+            images: ['ingrid-design-personalizado-1.png', 'ingrid-design-personalizado-2.png'], 
             description: 'Mais do que remover pelinhos, é um estudo minucioso da sua beleza natural. É feita uma análise da estrutura da sobrancelha, o formato do rosto e as proporções do olhar para criar um desenho exclusivo, que realça seus traços, harmoniza sua expressão e revela a moldura ideal para o seus olhos.' 
         }, 
         { 
             name: 'Design com Henna', 
-            images: ['/ingrid-design-henna-1.png'], 
+            images: ['ingrid-design-henna-1.png', 'ingrid-design-henna-2.png'], 
             description: 'Após o design personalizado, é realizada a aplicação estratégica da henna, respeitando o formato natural e o objetivo de harmonia do olhar. A henna é um pigmento temporário que pigemnta a pele, ajudando a cobrir falhas, definir o formato e realçar o contorno das sobrancelhas. O resultado são sobrancelhas mais marcantes, equilibradas e com acabamento sofisticado, sem perder a naturalidade. Por isso tanto quem gosta de resultado mais natural quanto resultado mais marcado consegue se sentir realizada com esse procedimento.' 
         },
         {
             name: 'Design com Coloração',
-            images: ['/ingrid-design-coloracao-1.png'],
+            images: ['ingrid-design-coloracao-1.png', 'ingrid-design-coloracao-2.png'],
             description: 'Após o design personalizado, é aplicada a coloração específica para sobrancelhas. Diferente da henna, a coloração age apenas nos fios, proporcionando um resultado natural, sútil e elegante. É ideal para quem deseja mais volume e definição, já que tinge até os fios mais finos, criando a sensação de sobrancelhas mais cheias e alinhadas, sem marcar a pele.'
         },
         { 
             name: 'Brow Lamination', 
             images: [
-                '/ingrid-brow-lamination-1.png', 
-                '/ingrid-brow-lamination-2.png', 
-                '/ingrid-brow-lamination-3.png', 
-                '/ingrid-brow-lamination-4.png',
-                '/ingrid-brow-lamination-5.png',
-                '/ingrid-brow-lamination-6.png'
+                'ingrid-brow-lamination-1.png', 
+                'ingrid-brow-lamination-2.png', 
+                'ingrid-brow-lamination-3.png'
             ], 
             description: 'Tendência forte de 2025, o Brow Lamination conquistou o coração de quem busca um olhar marcante e sobrancelhas naturalmente mais cheias. A técnica alinha e direciona os fios, criando a sensação de maior espessura e simetria, o que realça o formato e traz aquele toque de elegância & sofisticação. Além do efeito estético incrível, o alinhamento também ajuda a disfarçar falhas e cicatrizes, já que os fios são penteados e fixados de forma estratégica para cobrir pequenas imperfeições.' 
         },
         {
             name: 'Protocolo Reconstrutivo',
-            images: ['/ingrid-protocolo-reconstrutivo-1.png', '/ingrid-protocolo-reconstrutivo-2.png'],
+            images: ['ingrid-protocolo-reconstrutivo-1.png', 'ingrid-protocolo-reconstrutivo-2.png', 'ingrid-protocolo-reconstrutivo-3.png'],
             description: 'A técnica que chegou como tendência e se tornou a mais desejada do momento. Antes, bastava ver uma sobrancelha falhada ou sem estrutura e logo vinha a indicação de micropigmentação. Mas o mercado evoluiu e hoje as pessoas estão voltando com força para o natural. O Protocolo Reconstrutivo vai além de preencher: ele reconstrói a harmonia do olhar, devolve densidade aos fios e resgata o formato original com acabamento sofisticado.\nO natural nunca saiu de moda, mas agora, é o que todo mundo procura.'
         },
         {
             name: 'Rarità Lips',
-            images: ['/rarita-lips-1.png', '/rarita-lips-2.png'],
+            images: ['rarita-lips-1.png', 'rarita-lips-2.png'],
             description: 'Um tratamento de esfoliação e hidratação labial que devolve vida, maciez e viço natural aos lábios. Ideal para quem sente os lábios ressecados ou quer realçar a cor natural, o Raritá Lips remove células mortas e nutre profundamente, deixando os lábios suaves, saudáveis e com aparência radiante.\nNeste serviço, também é possível acrescentar uma pigmentação temporária, com duração de até 3 dias, para realçar ainda mais a cor e o contorno natural dos lábios.'
         },
         {
             name: 'Laser',
-            images: ['/laser.png'],
+            images: ['laser.png'],
             description: '(informações serão inseridas)'
         }
     ],
@@ -152,35 +149,35 @@ const PROFESSIONALS: Record<'ingrid' | 'maria', Professional> = {
     id: 'maria',
     name: 'Maria Eliza Gonçalves',
     title: 'Lash & Estética',
-    avatar: '/maria-eliza-profile.png',
+    avatar: 'maria-eliza-profile.png',
     bio: 'Esteticista Cosmetóloga. Cuido da sua pele com um tratamento personalizado e com naturalidade!',
     instagram: '@mariaelizaesteticaa',
     whatsapp: '5517996479152',
     services: [
         { 
             name: 'Lash Lifting', 
-            images: ['/maria-lash-lifting-1.png', '/maria-lash-lifting-2.png'], 
+            images: ['maria-lash-lifting-1.png', 'maria-lash-lifting-2.png'], 
             description: 'Técnica da curvatura dos cílios naturais.\nProporcionando um efeito rímel, com naturalidade e elegância.\nNão é feito manutenção.' 
         },
         { 
           name: 'Extensão de Cílios', 
-          images: ['/maria-volume-brasileiro-1.png'], 
+          images: ['maria-volume-brasileiro-1.png'], 
           description: 'Técnicas de extensão para um olhar marcante e volumoso. Escolha a sua preferida.',
           services: [
-            { name: 'Volume Light', images: ['/maria-volume-light-1.png'], description: 'Técnica de extensão de cílios naturais, preenchendo 50% dos fios, proporcionando um olhar delicado e elegante.' },
-            { name: 'Volume Soft Marrom', images: ['/maria-volume-light-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos na cor marrom, proporcionando um olhar natural e leve.\nÓtima opção para loiras, ruivas e por quem deseja um olhar elegante.' },
-            { name: 'Volume Brasileiro', images: ['/maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios feito com fios tecnológicos, garantindo durabilidade e proporcionando um olhar com volume e marcante.' },
-            { name: 'Volume 5D', images: ['/maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos, proporcionando um olhar marcante e com maior volume.\nTécnica mais volumosa.' },
+            { name: 'Volume Light', images: ['maria-volume-light-1.png'], description: 'Técnica de extensão de cílios naturais, preenchendo 50% dos fios, proporcionando um olhar delicado e elegante.' },
+            { name: 'Volume Soft Marrom', images: ['maria-volume-light-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos na cor marrom, proporcionando um olhar natural e leve.\nÓtima opção para loiras, ruivas e por quem deseja um olhar elegante.' },
+            { name: 'Volume Brasileiro', images: ['maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios feito com fios tecnológicos, garantindo durabilidade e proporcionando um olhar com volume e marcante.' },
+            { name: 'Volume 5D', images: ['maria-volume-brasileiro-1.png'], description: 'Técnica de extensão de cílios com fios tecnológicos, proporcionando um olhar marcante e com maior volume.\nTécnica mais volumosa.' },
           ]
         },
         { 
             name: 'Brow Lamination', 
-            images: ['/maria-brow-lamination-1.png'], 
+            images: ['maria-brow-lamination-1.png'], 
             description: 'Técnica de alinhamento e fios da sobrancelhas laminados.\nDisfarçando falhas e assimetrias.\nProporciona sobrancelhas definidas, alinhadas e elegante.' 
         },
         { 
             name: 'Limpeza de Pele', 
-            images: ['/maria-limpeza-pele-1.png', '/maria-limpeza-pele-2.png', '/maria-limpeza-pele-3.png'], 
+            images: ['maria-limpeza-pele-1.png', 'maria-limpeza-pele-2.png', 'maria-limpeza-pele-3.png'], 
             description: 'O procedimento essencial para começar seu tratamento facial, removendo impurezas, melhorando excesso de oleosidade, extraindo cravos, proporcionando uma pele limpa, saudável e pronta para receber os cosméticos!\nA limpeza de pele promove regeneração, uma pele com viço e renovada.' 
         },
     ],
@@ -527,7 +524,7 @@ export default function App() {
         
         <div className="relative w-full max-w-sm md:max-w-md text-center space-y-4 text-white">
             <img 
-              src="/logo.png" 
+              src="logo.png" 
               alt="Rarità Beauty Logo" 
               className={`w-28 h-28 md:w-32 md:h-32 mx-auto object-cover rounded-full border-2 border-zinc-700 shadow-lg transform-gpu transition-all duration-700 ease-in-out ${isAboutModalOpen ? 'scale-100 rotate-y-[720deg]' : 'scale-0'}`}
               style={{ transformStyle: 'preserve-3d' }}
@@ -580,7 +577,7 @@ export default function App() {
       {/* Main Link Card */}
       <div className={`relative w-full max-w-sm md:max-w-md mx-auto bg-zinc-900 bg-opacity-50 backdrop-blur-md border border-zinc-800 rounded-3xl shadow-2xl p-6 md:p-8 space-y-6 transform-gpu transition-all duration-500 ease-in-out overflow-hidden ${isAboutModalOpen ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'}`}>
         <div className="absolute top-0 left-0 w-full h-full">
-          <img src="/fundo.png" alt="" className="w-full h-full object-cover opacity-20 fade-bottom" />
+          <img src="fundo.png" alt="" className="w-full h-full object-cover opacity-20 fade-bottom" />
         </div>
         
         <div className="relative z-10 flex flex-col items-center text-center">
@@ -589,7 +586,7 @@ export default function App() {
                 onClick={() => setIsAboutModalOpen(true)}
             >
                 <img 
-                    src="/logo.png" 
+                    src="logo.png" 
                     alt="Rarità Beauty Logo" 
                     className="w-full h-full object-cover rounded-full border-2 border-zinc-700 shadow-lg transition-transform duration-300 hover:scale-110"
                 />
